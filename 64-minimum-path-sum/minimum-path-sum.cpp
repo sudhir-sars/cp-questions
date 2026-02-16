@@ -1,31 +1,29 @@
 class Solution {
 public:
 
-    int computeMinPath(vector<vector<int>>& grid, int row, int col, int numRows, int numCols ,vector<vector<int>>& cache){
-        if(row==numRows-1 && col==numCols-1){
-            return grid[row][col];
-        }
 
-        if(row>=numRows ||col>=numCols){
-            return INT_MAX;
-        }
-
-        if(cache[row][col]!=-1){
-            return cache[row][col];
-        }
-
-        int right=computeMinPath(grid,row,col+1,numRows,numCols,cache);
-        int down=computeMinPath(grid,row+1,col,numRows,numCols,cache);
-
-        return cache[row][col]= grid[row][col]+ min(right,down);
-
-    }
     int minPathSum(vector<vector<int>>& grid) {
         int numRows=grid.size();
         int numCols=grid[0].size();
-        vector<vector<int>> cache(numRows,vector<int>(numCols,-1));
+        vector<vector<int>> cache(numRows,vector<int>(numCols,0));
 
-         return computeMinPath(grid,0,0,numRows,numCols,cache);
-        
+        cache[numRows-1][numCols-1]=grid[numRows-1][numCols-1];
+
+        for(int row=numRows-2;row>=0;row--){
+            cache[row][numCols-1]=grid[row][numCols-1]+ cache[row+1][numCols-1];
+        }
+
+        for(int col=numCols-2;col>=0;col--){
+            cache[numRows-1][col]=grid[numRows-1][col]+cache[numRows-1][col+1];
+        }
+
+
+        for(int row=numRows-2;row>=0;row--){
+            for(int col=numCols-2;col>=0;col--){
+                cache[row][col]=grid[row][col]+min(cache[row+1][col],cache[row][col+1]);
+            }
+        }
+
+         return cache[0][0];
     }
 };
