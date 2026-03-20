@@ -1,12 +1,14 @@
 impl Solution {
     pub fn sort_colors(nums: &mut Vec<i32>) {
-       
+        if nums.is_empty() {
+            return;
+        }
 
         let mut s = 0;
         let mut m = 0;
-        let mut e = nums.len();
+        let mut e = nums.len() - 1;
 
-        while m < e {
+        while m <= e {
             match nums[m] {
                 0 => {
                     nums.swap(s, m);
@@ -17,10 +19,11 @@ impl Solution {
                     m += 1;
                 }
                 _ => {
-                     e -= 1;
                     nums.swap(m, e);
-                    
-                   
+                    if e == 0 {
+                        break;   // 🔴 prevents usize underflow
+                    }
+                    e -= 1;
                 }
             }
         }
