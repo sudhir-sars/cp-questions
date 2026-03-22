@@ -5,6 +5,7 @@ public:
         int top = x;
         int bottom = x + k - 1;
         while (top < bottom) {
+            
             for (int j = y; j < y + k; j++) {
                 swap(grid[top][j], grid[bottom][j]);
             }
