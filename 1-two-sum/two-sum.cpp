@@ -10,7 +10,7 @@ public:
             if (it != mp.end())
                 return {it->second, i};
 
-            mp.emplace(nums[i], i);
+            mp[nums[i]] = i;
         }
 
         return {};
